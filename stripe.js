@@ -65,3 +65,29 @@ exports.retrievePrice = async (priceId) => {
         console.log(error);
     }
 };
+
+/**
+ * description: create a checkout session
+ * @params {string} success_url - url to redirect to on successful payment
+ * @params {string} cancel_url - url to redirect to on cancel payment
+ * @params {string} line_items - Array of purchase objects with price and quantity
+ * @returns {object} session
+ */
+exports.createCheckoutSession = async ({
+    success_url,
+    cancel_url,
+    line_items,
+    mode = "subscription",
+}) => {
+    try {
+        const session = await stripe.checkout.sessions.create({
+            success_url,
+            cancel_url,
+            line_items,
+            mode,
+        });
+        return session;
+    } catch (error) {
+        console.log(error);
+    }
+};
