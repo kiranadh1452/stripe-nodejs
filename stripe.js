@@ -71,6 +71,7 @@ exports.retrievePrice = async (priceId) => {
  * @params {string} success_url - url to redirect to on successful payment
  * @params {string} cancel_url - url to redirect to on cancel payment
  * @params {string} line_items - Array of purchase objects with price and quantity
+ * @params {customer} customer - customer object
  * @returns {object} session
  */
 exports.createCheckoutSession = async ({
@@ -79,11 +80,13 @@ exports.createCheckoutSession = async ({
     line_items,
     mode = "subscription",
     metadata = {},
+    customer,
 }) => {
     try {
         const session = await stripe.checkout.sessions.create({
             success_url,
             cancel_url,
+            customer,
             line_items,
             metadata,
             mode,
