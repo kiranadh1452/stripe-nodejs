@@ -158,3 +158,22 @@ exports.getCustomerById = async (id) => {
         console.log(error);
     }
 };
+
+/**
+ * description: create an event hook
+ * @params {object} rawBody - raw body of the request
+ * @params {string} signature - signature of the request
+ * @returns {object} event
+ */
+exports.createWebhook = async (rawBody, signature) => {
+    try {
+        const event = await stripe.webhooks.constructEvent(
+            rawBody,
+            signature,
+            process.env.STRIPE_WEBHOOK_SECRET
+        );
+        return event;
+    } catch (error) {
+        console.log(error);
+    }
+};

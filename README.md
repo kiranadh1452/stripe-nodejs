@@ -115,3 +115,8 @@
 -   shipping : The customer’s shipping information. Appears on invoices emailed to this customer.
 -   tax_exempt : The customer’s tax exemption. One of `none`, `exempt`, or `reverse`.
 -   next_invoice_sequence : The sequence to be used on the customer’s next invoice. Defaults to 1.
+
+### Webhooks for Stripe
+
+-   Setting up Webhooks : Find the documentation [here](https://stripe.com/docs/webhooks/setup).
+-   Supported events : (Supported Events)[https://stripe.com/docs/api/events/types]
