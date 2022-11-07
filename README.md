@@ -40,3 +40,59 @@
 -   recurring: Describes the recurring components of a price such as interval, interval_count, usage_type, aggregate_usage, interval_count.
 -   tiers_mode: Defines if the tiering price should be `graduated` or `volume` based. In volume-based tiering, the maximum quantity within a period determines the per unit price, in graduated tiering pricing can successively change as the quantity grows.
 -   type: The type of the price. The price can be of type `recurring`, `one_time` or `tiered`.
+
+### General Checkout Session Structure
+
+```js
+{
+  "id": "cs_test_a1xi9bpjBpdx6iO0s4fqyUckbYtxTHNv3673HD7CfEhRYce11c9ipTUhsU",
+  "object": "checkout.session",
+  "after_expiration": null,
+  "allow_promotion_codes": null,
+  "amount_subtotal": null,
+  "amount_total": null,
+  "automatic_tax": {
+    "enabled": false,
+    "status": null
+  },
+  "billing_address_collection": null,
+  "cancel_url": "https://example.com/cancel",
+  "client_reference_id": null,
+  "consent": null,
+  "consent_collection": null,
+  "created": 1667825293,
+  "currency": null,
+  "customer": null,
+  "customer_creation": null,
+  "customer_details": null,
+  "customer_email": null,
+  "expires_at": 1667825293,
+  "livemode": false,
+  "locale": null,
+  "metadata": {},
+  "mode": "payment",
+  "payment_intent": "pi_1DsokA2eZvKYlo2CSwyOjGrn",
+  "payment_link": null,
+  "payment_method_collection": null,
+  "payment_method_options": {},
+  "payment_method_types": [
+    "card"
+  ],
+  "payment_status": "unpaid",
+  "phone_number_collection": {
+    "enabled": false
+  },
+  "recovered_from": null,
+  "setup_intent": null,
+  "shipping_address_collection": null,
+  "shipping_cost": null,
+  "shipping_details": null,
+  "shipping_options": [],
+  "status": "expired",
+  "submit_type": null,
+  "subscription": null,
+  "success_url": "https://example.com/success",
+  "total_details": null,
+  "url": "https://checkout.stripe.com/c/pay/..."
+}
+```
