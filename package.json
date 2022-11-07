@@ -1,0 +1,23 @@
+{
+  "name": "stripe",
+  "version": "1.0.0",
+  "description": "> Click [here](https://stripe.com/docs/api?lang=node) for API Reference",
+  "main": "stripe.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kiranadh1452/stripe-nodejs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kiranadh1452/stripe-nodejs/issues"
+  },
+  "homepage": "https://github.com/kiranadh1452/stripe-nodejs#readme",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "stripe": "^10.16.0"
+  }
+}
