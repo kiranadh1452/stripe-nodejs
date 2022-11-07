@@ -96,3 +96,22 @@
   "url": "https://checkout.stripe.com/c/pay/..."
 }
 ```
+
+### Important Parameters in Customer Object
+
+-   id : Customer Id
+-   object : Type of object (customer)
+-   address : Customer address
+-   balance : Current balance, if any, being stored on the customer’s account. If negative, the customer has credit to apply to the next invoice. If positive, the customer has an amount owed that will be added to the next invoice. The balance does not refer to any unpaid invoices; it solely takes into account amounts that have yet to be successfully applied to any invoice. This balance is only taken into account for recurring billing purposes (i.e., subscriptions, invoices, invoice items).
+-   created : Timestamp of when the customer was created
+-   email : Customer email
+-   invoice_prefix : The prefix for the customer used to generate unique invoice numbers. Must be 3–12 uppercase letters or numbers.
+-   invoice_settings : Default invoice settings for this customer. ( Includes custom_fields, default_payment_method, footer, and more)
+-   livemode : Boolean value indicating if the customer is available in live mode
+-   metadata : A set of key/value pairs that you can attach to a customer object. It can be useful for storing additional information about the customer in a structured format.
+-   name : Customer name
+-   phone : Customer phone number
+-   preferred_locales : The customer’s preferred locales (languages), ordered by preference.
+-   shipping : The customer’s shipping information. Appears on invoices emailed to this customer.
+-   tax_exempt : The customer’s tax exemption. One of `none`, `exempt`, or `reverse`.
+-   next_invoice_sequence : The sequence to be used on the customer’s next invoice. Defaults to 1.

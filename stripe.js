@@ -121,3 +121,37 @@ exports.expireCheckoutSession = async (sessionId) => {
         console.log(error);
     }
 };
+
+/**
+ * description: create a customer
+ * @params {string} email - email of the customer
+ * @params {string} id - id of the customer
+ * @returns {object} customer
+ */
+exports.addNewCustomer = async ({ id, email }) => {
+    try {
+        const customer = await stripe.customers.create({
+            id,
+            email,
+        });
+        console.log(customer);
+
+        return customer;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+/**
+ * description: retrieve a customer
+ * @params {string} customerId - id of the customer
+ * @returns {object} customer
+ */
+exports.getCustomerById = async (id) => {
+    try {
+        const customer = await stripe.customers.retrieve(id);
+        return customer;
+    } catch (error) {
+        console.log(error);
+    }
+};
