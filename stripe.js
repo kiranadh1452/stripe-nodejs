@@ -78,15 +78,45 @@ exports.createCheckoutSession = async ({
     cancel_url,
     line_items,
     mode = "subscription",
+    metadata = {},
 }) => {
     try {
         const session = await stripe.checkout.sessions.create({
             success_url,
             cancel_url,
             line_items,
+            metadata,
             mode,
         });
         return session;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+/**
+ * description: retrieve a checkout session
+ * @params {string} sessionId - id of the session to retrieve
+ * @returns {object} session
+ */
+exports.retrieveCheckoutSession = async (sessionId) => {
+    try {
+        const session = await stripe.checkout.sessions.retrieve(sessionId);
+        return session;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+/**
+ * description: expire a checkout session
+ * @params {string} sessionId - id of the session to expire
+ * @returns {boolean} success status
+ */
+exports.expireCheckoutSession = async (sessionId) => {
+    try {
+        const expired = await stripe.checkout.sessions.expire(sessionId);
+        return expired ? true : false;
     } catch (error) {
         console.log(error);
     }
