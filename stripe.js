@@ -18,6 +18,7 @@ exports.retrieveAllProducts = async (limit = undefined) => {
         return products;
     } catch (error) {
         console.log(error);
+        return new Error("Error while retrieving products", error.message);
     }
 };
 
@@ -32,6 +33,7 @@ exports.retrieveProduct = async (productId) => {
         return product;
     } catch (error) {
         console.log(error);
+        return new Error("Error while retrieving product", error.message);
     }
 };
 
@@ -48,6 +50,7 @@ exports.retrieveAllPrice = async (limit = undefined) => {
         return prices;
     } catch (error) {
         console.log(error);
+        return new Error("Error while retrieving prices", error.message);
     }
 };
 
@@ -63,6 +66,7 @@ exports.retrievePrice = async (priceId) => {
         return price;
     } catch (error) {
         console.log(error);
+        return new Error("Error while retrieving price", error.message);
     }
 };
 
@@ -71,7 +75,7 @@ exports.retrievePrice = async (priceId) => {
  * @params {string} success_url - url to redirect to on successful payment
  * @params {string} cancel_url - url to redirect to on cancel payment
  * @params {string} line_items - Array of purchase objects with price and quantity
- * @params {customer} customer - customer object
+ * @params {customer} customer - id of the customer making the purchase
  * @returns {object} session
  */
 exports.createCheckoutSession = async ({
@@ -93,7 +97,11 @@ exports.createCheckoutSession = async ({
         });
         return session;
     } catch (error) {
-        console.log(error);
+        console.log("Error occured", error.message);
+        return new Error(
+            "Error while creating checkout session",
+            error.message
+        );
     }
 };
 
@@ -108,6 +116,10 @@ exports.retrieveCheckoutSession = async (sessionId) => {
         return session;
     } catch (error) {
         console.log(error);
+        return new Error(
+            "Error while retrieving checkout session",
+            error.message
+        );
     }
 };
 
@@ -122,6 +134,10 @@ exports.expireCheckoutSession = async (sessionId) => {
         return expired ? true : false;
     } catch (error) {
         console.log(error);
+        return new Error(
+            "Error while expiring checkout session",
+            error.message
+        );
     }
 };
 
@@ -142,6 +158,7 @@ exports.addNewCustomer = async ({ id, email }) => {
         return customer;
     } catch (error) {
         console.log(error);
+        return new Error("Error while creating customer", error.message);
     }
 };
 
@@ -156,6 +173,7 @@ exports.getCustomerById = async (id) => {
         return customer;
     } catch (error) {
         console.log(error);
+        return new Error("Error while retrieving customer", error.message);
     }
 };
 
@@ -175,5 +193,48 @@ exports.createWebhook = async (rawBody, signature) => {
         return event;
     } catch (error) {
         console.log(error);
+        return new Error("Error while creating webhook", error.message);
+    }
+};
+
+/*********************************************************************************************
+ *          Subscriptions Related Functions
+ *********************************************************************************************/
+
+/**
+ * description: create a subscription
+ * @params {string} customer - id of the customer
+ * @params {string} items - array of item (item is an object with price) to subscribe to
+ * @param {object} metadata - metadata to attach to the subscription
+ * @returns {object} subscription
+ */
+exports.createSubscription = async ({ customer, items, metadata = {} }) => {
+    try {
+        const subscription = await stripe.subscriptions.create({
+            customer,
+            items,
+            metadata,
+        });
+        return subscription;
+    } catch (error) {
+        console.log(error);
+        return new Error("Error while creating subscription", error.message);
+    }
+};
+
+/**
+ * description: retrieve a subscription
+ * @params {string} subscriptionId - id of the subscription
+ * @returns {object} subscription
+ */
+exports.retrieveSubscription = async (subscriptionId) => {
+    try {
+        const subscription = await stripe.subscriptions.retrieve(
+            subscriptionId
+        );
+        return subscription;
+    } catch (error) {
+        console.log(error);
+        return new Error("Error while retrieving subscription", error.message);
     }
 };
