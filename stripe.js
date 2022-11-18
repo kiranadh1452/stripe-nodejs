@@ -18,7 +18,7 @@ exports.retrieveAllProducts = async (limit = undefined) => {
         return products;
     } catch (error) {
         console.log(error);
-        return new Error("Error while retrieving products", error.message);
+        throw new Error("Error while retrieving products", error.message);
     }
 };
 
@@ -33,7 +33,7 @@ exports.retrieveProduct = async (productId) => {
         return product;
     } catch (error) {
         console.log(error);
-        return new Error("Error while retrieving product", error.message);
+        throw new Error("Error while retrieving product", error.message);
     }
 };
 
@@ -50,7 +50,7 @@ exports.retrieveAllPrice = async (limit = undefined) => {
         return prices;
     } catch (error) {
         console.log(error);
-        return new Error("Error while retrieving prices", error.message);
+        throw new Error("Error while retrieving prices", error.message);
     }
 };
 
@@ -62,11 +62,10 @@ exports.retrieveAllPrice = async (limit = undefined) => {
 exports.retrievePrice = async (priceId) => {
     try {
         const price = await stripe.prices.retrieve(priceId);
-        console.log(price);
         return price;
     } catch (error) {
         console.log(error);
-        return new Error("Error while retrieving price", error.message);
+        throw new Error("Error while retrieving price", error.message);
     }
 };
 
@@ -98,7 +97,7 @@ exports.createCheckoutSession = async ({
         return session;
     } catch (error) {
         console.log("Error occured", error.message);
-        return new Error(
+        throw new Error(
             "Error while creating checkout session",
             error.message
         );
@@ -116,7 +115,7 @@ exports.retrieveCheckoutSession = async (sessionId) => {
         return session;
     } catch (error) {
         console.log(error);
-        return new Error(
+        throw new Error(
             "Error while retrieving checkout session",
             error.message
         );
@@ -134,7 +133,7 @@ exports.expireCheckoutSession = async (sessionId) => {
         return expired ? true : false;
     } catch (error) {
         console.log(error);
-        return new Error(
+        throw new Error(
             "Error while expiring checkout session",
             error.message
         );
@@ -153,12 +152,11 @@ exports.addNewCustomer = async ({ id, email }) => {
             id,
             email,
         });
-        console.log(customer);
 
         return customer;
     } catch (error) {
         console.log(error);
-        return new Error("Error while creating customer", error.message);
+        throw new Error("Error while creating customer", error.message);
     }
 };
 
@@ -172,8 +170,8 @@ exports.getCustomerById = async (id) => {
         const customer = await stripe.customers.retrieve(id);
         return customer;
     } catch (error) {
-        console.log(error);
-        return new Error("Error while retrieving customer", error.message);
+        // console.log(error);
+        throw new Error("Error while retrieving customer", error.message);
     }
 };
 
@@ -193,7 +191,7 @@ exports.createWebhook = async (rawBody, signature) => {
         return event;
     } catch (error) {
         console.log(error);
-        return new Error("Error while creating webhook", error.message);
+        throw new Error("Error while creating webhook", error.message);
     }
 };
 
@@ -218,7 +216,7 @@ exports.createSubscription = async ({ customer, items, metadata = {} }) => {
         return subscription;
     } catch (error) {
         console.log(error);
-        return new Error("Error while creating subscription", error.message);
+        throw new Error("Error while creating subscription", error.message);
     }
 };
 
@@ -235,6 +233,6 @@ exports.retrieveSubscription = async (subscriptionId) => {
         return subscription;
     } catch (error) {
         console.log(error);
-        return new Error("Error while retrieving subscription", error.message);
+        throw new Error("Error while retrieving subscription", error.message);
     }
 };
