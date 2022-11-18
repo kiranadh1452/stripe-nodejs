@@ -97,10 +97,7 @@ exports.createCheckoutSession = async ({
         return session;
     } catch (error) {
         console.log("Error occured", error.message);
-        throw new Error(
-            "Error while creating checkout session",
-            error.message
-        );
+        throw new Error("Error while creating checkout session", error.message);
     }
 };
 
@@ -133,10 +130,7 @@ exports.expireCheckoutSession = async (sessionId) => {
         return expired ? true : false;
     } catch (error) {
         console.log(error);
-        throw new Error(
-            "Error while expiring checkout session",
-            error.message
-        );
+        throw new Error("Error while expiring checkout session", error.message);
     }
 };
 
@@ -206,11 +200,17 @@ exports.createWebhook = async (rawBody, signature) => {
  * @param {object} metadata - metadata to attach to the subscription
  * @returns {object} subscription
  */
-exports.createSubscription = async ({ customer, items, metadata = {} }) => {
+exports.createSubscription = async ({
+    customer,
+    items,
+    metadata = {},
+    billing_cycle_anchor = 1611008505,
+}) => {
     try {
         const subscription = await stripe.subscriptions.create({
             customer,
             items,
+            billing_cycle_anchor,
             metadata,
         });
         return subscription;
@@ -234,5 +234,28 @@ exports.retrieveSubscription = async (subscriptionId) => {
     } catch (error) {
         console.log(error);
         throw new Error("Error while retrieving subscription", error.message);
+    }
+};
+
+/**
+ * description: update a subscription
+ * @params {string} subscriptionId - id of the subscription
+ * @params {object} data - data to update
+ * @returns {object} subscription
+ */
+exports.updateSubscription = async (subscriptionId, data) => {
+    try {
+        const subscription = await stripe.subscriptions.update(
+            subscriptionId,
+            data
+        );
+        return subscription;
+    } catch (error) {
+        console.log(error);
+        throw new Error(
+            "Error while updating subscription",
+            subscriptionId,
+            error.message
+        );
     }
 };
