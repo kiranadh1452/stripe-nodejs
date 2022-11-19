@@ -259,3 +259,28 @@ exports.updateSubscription = async (subscriptionId, data) => {
         );
     }
 };
+
+/**
+ * description: add a item to a subscription
+ * @params {string} subscriptionId - id of the subscription
+ * @params {string} priceId - id of the price
+ * @params {number} quantity - quantity of the item
+ * @returns {object} subscription item
+ */
+exports.addSubscriptionItem = async (subscriptionId, priceId, quantity) => {
+    try {
+        const subItem = await stripe.subscriptionItems.create({
+            subscription: subscriptionId,
+            price: priceId,
+            quantity: quantity,
+        });
+        return subItem;
+    } catch (error) {
+        console.log(error);
+        throw new Error(
+            "Error while adding subscription item",
+            subscriptionId,
+            error.message
+        );
+    }
+};
