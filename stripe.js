@@ -18,7 +18,7 @@ exports.retrieveAllProducts = async (limit = undefined) => {
         return products;
     } catch (error) {
         console.log(error);
-        throw new Error("Error while retrieving products", error.message);
+        throw new Error(`Error while retrieving products, ${error.message}`);
     }
 };
 
@@ -33,7 +33,9 @@ exports.retrieveProduct = async (productId) => {
         return product;
     } catch (error) {
         console.log(error);
-        throw new Error("Error while retrieving product", error.message);
+        throw new Error(
+            `Error while retrieving product ${productId}, ${error.message}`
+        );
     }
 };
 
@@ -50,7 +52,7 @@ exports.retrieveAllPrice = async (limit = undefined) => {
         return prices;
     } catch (error) {
         console.log(error);
-        throw new Error("Error while retrieving prices", error.message);
+        throw new Error(`Error while retrieving prices, ${error.message}`);
     }
 };
 
@@ -65,7 +67,9 @@ exports.retrievePrice = async (priceId) => {
         return price;
     } catch (error) {
         console.log(error);
-        throw new Error("Error while retrieving price", error.message);
+        throw new Error(
+            `Error while retrieving price ${priceId}, ${error.message}`
+        );
     }
 };
 
@@ -97,7 +101,9 @@ exports.createCheckoutSession = async ({
         return session;
     } catch (error) {
         console.log("Error occured", error.message);
-        throw new Error("Error while creating checkout session", error.message);
+        throw new Error(
+            `Error while creating checkout session, ${error.message}`
+        );
     }
 };
 
@@ -113,8 +119,7 @@ exports.retrieveCheckoutSession = async (sessionId) => {
     } catch (error) {
         console.log(error);
         throw new Error(
-            "Error while retrieving checkout session",
-            error.message
+            `Error while retrieving checkout session ${sessionId}, ${error.message}`
         );
     }
 };
@@ -130,7 +135,9 @@ exports.expireCheckoutSession = async (sessionId) => {
         return expired ? true : false;
     } catch (error) {
         console.log(error);
-        throw new Error("Error while expiring checkout session", error.message);
+        throw new Error(
+            `Error while expiring checkout session ${sessionId}, ${error.message}`
+        );
     }
 };
 
@@ -150,7 +157,9 @@ exports.addNewCustomer = async ({ id, email }) => {
         return customer;
     } catch (error) {
         console.log(error);
-        throw new Error("Error while creating customer", error.message);
+        throw new Error(
+            `Error while creating customer with id ${id}, ${error.message}`
+        );
     }
 };
 
@@ -165,7 +174,9 @@ exports.getCustomerById = async (id) => {
         return customer;
     } catch (error) {
         // console.log(error);
-        throw new Error("Error while retrieving customer", error.message);
+        throw new Error(
+            `Error while retrieving customer ${id}, ${error.message}`
+        );
     }
 };
 
@@ -185,7 +196,7 @@ exports.createWebhook = async (rawBody, signature) => {
         return event;
     } catch (error) {
         console.log(error);
-        throw new Error("Error while creating webhook", error.message);
+        throw new Error(`Error while creating webhook, ${error.message}`);
     }
 };
 
@@ -216,7 +227,7 @@ exports.createSubscription = async ({
         return subscription;
     } catch (error) {
         console.log(error);
-        throw new Error("Error while creating subscription", error.message);
+        throw new Error(`Error while creating subscription, ${error.message}`);
     }
 };
 
@@ -233,7 +244,9 @@ exports.retrieveSubscription = async (subscriptionId) => {
         return subscription;
     } catch (error) {
         console.log(error);
-        throw new Error("Error while retrieving subscription", error.message);
+        throw new Error(
+            `Error while retrieving subscription ${subscriptionId}, ${error.message}`
+        );
     }
 };
 
@@ -253,9 +266,7 @@ exports.updateSubscription = async (subscriptionId, data) => {
     } catch (error) {
         console.log(error);
         throw new Error(
-            "Error while updating subscription",
-            subscriptionId,
-            error.message
+            `Error while updating subscription ${subscriptionId} : ${error.message}`
         );
     }
 };
@@ -278,9 +289,7 @@ exports.addSubscriptionItem = async (subscriptionId, priceId, quantity) => {
     } catch (error) {
         console.log(error);
         throw new Error(
-            "Error while adding subscription item",
-            subscriptionId,
-            error.message
+            `Error while adding subscription item with price ${priceId} to subscription ${subscriptionId} : ${error.message}`
         );
     }
 };
