@@ -281,7 +281,7 @@ exports.addSubscriptionItem = async (subscriptionId, priceId, quantity) => {
 };
 
 /*********************************************************************************************
- *          Coupons and Discounts Related Functions
+ *          Coupons, Discounts and Promo-codes Related Functions
  *********************************************************************************************/
 
 /**
@@ -370,5 +370,73 @@ exports.listCoupons = async (limit = 10) => {
     } catch (error) {
         console.log(error);
         throw new Error(`Error while listing coupons, ${error.message}`);
+    }
+};
+
+/**
+ * description: create a new promocode
+ * @params {Object} promoCodeData - object of the promocode
+ * @returns {Object} promocode
+ */
+exports.createPromoCode = async (promoCodeData) => {
+    try {
+        const promoCode = await stripe.promotionCodes.create(promoCodeData);
+        return promoCode;
+    } catch (error) {
+        console.log(error);
+        throw new Error(`Error while creating promo code, ${error.message}`);
+    }
+};
+
+/**
+ * description: update a promocode
+ * @params {string} promoCodeId - id of the promocode
+ * @params {Object} promoCodeData - object of the promocode
+ * @returns {Object} promoCode
+ */
+exports.updatePromoCode = async (promoCodeId, promoCodeData) => {
+    try {
+        const promoCode = await stripe.promotionCodes.update(
+            promoCodeId,
+            promoCodeData
+        );
+        return promoCode;
+    } catch (error) {
+        console.log(error);
+        throw new Error(
+            `Error while updating promo code ${promoCodeId}, ${error.message}`
+        );
+    }
+};
+
+/**
+ * description: retrieve a promocode
+ * @params {string} promoCodeId - id of the promocode
+ * @returns {Object} promoCode
+ */
+exports.retrievePromoCode = async (promoCodeId) => {
+    try {
+        const promoCode = await stripe.promotionCodes.retrieve(promoCodeId);
+        return promoCode;
+    } catch (error) {
+        console.log(error);
+        throw new Error(
+            `Error while retrieving promo code ${promoCodeId}, ${error.message}`
+        );
+    }
+};
+
+/**
+ * description: list all promocodes
+ * @params {number} limit - limit of promocodes to return
+ * @returns {Object} promoCodes
+ */
+exports.listPromoCodes = async (limit = 10) => {
+    try {
+        const promoCodes = await stripe.promotionCodes.list({ limit });
+        return promoCodes;
+    } catch (error) {
+        console.log(error);
+        throw new Error(`Error while listing promo codes, ${error.message}`);
     }
 };
