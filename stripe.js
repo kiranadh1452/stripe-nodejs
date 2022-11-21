@@ -81,23 +81,9 @@ exports.retrievePrice = async (priceId) => {
  * @params {customer} customer - id of the customer making the purchase
  * @returns {object} session
  */
-exports.createCheckoutSession = async ({
-    success_url,
-    cancel_url,
-    line_items,
-    mode = "subscription",
-    metadata = {},
-    customer,
-}) => {
+exports.createCheckoutSession = async (sessionData) => {
     try {
-        const session = await stripe.checkout.sessions.create({
-            success_url,
-            cancel_url,
-            customer,
-            line_items,
-            metadata,
-            mode,
-        });
+        const session = await stripe.checkout.sessions.create(sessionData);
         return session;
     } catch (error) {
         console.log("Error occured", error.message);
