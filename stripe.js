@@ -293,3 +293,96 @@ exports.addSubscriptionItem = async (subscriptionId, priceId, quantity) => {
         );
     }
 };
+
+/*********************************************************************************************
+ *          Coupons and Discounts Related Functions
+ *********************************************************************************************/
+
+/**
+ * description: create a coupon
+ * @params {string} couponId - id of the coupon
+ * `coupounData` could have following params:
+    @subparams - percent_off - A positive integer between 1 and 100 that represents the discount the coupon will apply (required if amount_off is not passed)
+    @subparams - amount_off - A positive integer representing how much to subtract from an invoice total (required if percent_off is not passed)
+    @subparams - currency - Three-letter ISO currency code, in lowercase. Must be a supported currency (required if amount_off is passed)
+    @subparams - duration - One of forever, once, or repeating. Describes how long a customer who applies this coupon will get the discount. Defaults to repeating.
+    @subparams - duration_in_months - If duration is repeating, the number of months the coupon applies. Null if coupon duration is forever or once.
+    @subparams - max_redemptions - Maximum number of times this coupon can be redeemed, in total, before it is no longer valid. For example, you might have a 50% off coupon that the first 20 customers can use.
+    @subparams - name - Name of the coupon displayed to customers on for instance invoices or receipts.
+ */
+exports.createCoupon = async (couponData) => {
+    try {
+        const coupon = await stripe.coupons.create(couponData);
+        return coupon;
+    } catch (error) {
+        console.log(error);
+        throw new Error(`Error while creating coupon, ${error.message}`);
+    }
+};
+
+/**
+ * description: retrieve a coupon
+ * @params {string} couponId - id of the coupon
+ * @returns {object} coupon
+ */
+exports.retrieveCoupon = async (couponId) => {
+    try {
+        const coupon = await stripe.coupons.retrieve(couponId);
+        return coupon;
+    } catch (error) {
+        console.log(error);
+        throw new Error(
+            `Error while retrieving coupon ${couponId}, ${error.message}`
+        );
+    }
+};
+
+/**
+ * description: update a coupon
+ * @params {string} couponId - id of the coupon
+ * @params {object} data - data to update
+ * @returns {object} coupon
+ */
+exports.updateCoupon = async (couponId, data) => {
+    try {
+        const coupon = await stripe.coupons.update(couponId, data);
+        return coupon;
+    } catch (error) {
+        console.log(error);
+        throw new Error(
+            `Error while updating coupon ${couponId}, ${error.message}`
+        );
+    }
+};
+
+/**
+ * description: delete a coupon
+ * @params {string} couponId - id of the coupon
+ * @returns {object} coupon
+ */
+exports.deleteCoupon = async (couponId) => {
+    try {
+        const coupon = await stripe.coupons.del(couponId);
+        return coupon;
+    } catch (error) {
+        console.log(error);
+        throw new Error(
+            `Error while deleting coupon ${couponId}, ${error.message}`
+        );
+    }
+};
+
+/**
+ * description: list all coupons
+ * @params {number} limit - limit of coupons to return
+ * @returns {object} coupons
+ */
+exports.listCoupons = async (limit = 10) => {
+    try {
+        const coupons = await stripe.coupons.list({ limit });
+        return coupons;
+    } catch (error) {
+        console.log(error);
+        throw new Error(`Error while listing coupons, ${error.message}`);
+    }
+};
