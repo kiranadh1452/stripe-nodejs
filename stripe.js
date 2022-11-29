@@ -320,6 +320,40 @@ exports.addSubscriptionItem = async (subscriptionId, priceId, quantity) => {
     }
 };
 
+/**
+ * description: remove a item from a subscription
+ * @params {string} subscriptionId - id of the subscription
+ * @params {string} subscriptionItemId - id of the subscription item
+ * @returns {object} subscription item
+ */
+exports.removeSubscriptionItem = async (subscriptionId, subscriptionItemId) => {
+    try {
+        const subItem = await stripe.subscriptionItems.del(subscriptionItemId);
+        return subItem;
+    } catch (error) {
+        console.log(error);
+        throw new Error(
+            `Error while removing subscription item ${subscriptionItemId} from subscription ${subscriptionId} : ${error.message}`
+        );
+    }
+};
+
+/**
+ * description: cancel a subscription
+ * @params {string} subscriptionId - id of the subscription
+ * @returns {object} subscription
+ */
+exports.cancelSubscription = async (subscriptionId) => {
+    try {
+        const subscription = await stripe.subscriptions.del(subscriptionId);
+        return subscription;
+    } catch (error) {
+        console.log(error);
+        throw new Error(
+            `Error while cancelling subscription ${subscriptionId} : ${error.message}`
+        );
+    }
+};
 /*********************************************************************************************
  *          Coupons, Discounts and Promo-codes Related Functions
  *********************************************************************************************/
@@ -478,6 +512,32 @@ exports.listPromoCodes = async (limit = 10) => {
     } catch (error) {
         console.log(error);
         throw new Error(`Error while listing promo codes, ${error.message}`);
+    }
+};
+
+/*********************************************************************************************
+ *          Payments, Invoices and Refunds Related Functions
+ *********************************************************************************************/
+exports.refundPayment = async (paymentId, amount) => {
+    try {
+        const refund = await stripe.refunds.create({
+            payment_intent: paymentId,
+            amount,
+        });
+        return refund;
+    } catch (error) {
+        console.log(error);
+        throw new Error(`Error while refunding payment, ${error.message}`);
+    }
+};
+
+exports.retrievePaymentIntent = async (paymentId) => {
+    try {
+        const paymentIntent = await stripe.paymentIntents.retrieve(paymentId);
+        return paymentIntent;
+    } catch (error) {
+        console.log(error);
+        throw new Error(`Error while retrieving payment, ${error.message}`);
     }
 };
 
