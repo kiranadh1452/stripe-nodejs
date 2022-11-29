@@ -237,6 +237,46 @@ exports.retrieveSubscription = async (subscriptionId) => {
 };
 
 /**
+ * description: retrieve all subscriptions
+ * @params {number} limit - number of subscriptions to retrieve
+ * @params {string} customer - id of the customer
+ * @params {string} price - id of the price
+ * @params {string} status - status of the subscription
+ * @returns {object} subscriptions
+ */
+exports.retrieveAllSubscriptions = async ({
+    limit = 100,
+    customer,
+    price,
+    status,
+    start_after,
+    ending_before,
+    current_period_start,
+    current_period_end,
+    created,
+}) => {
+    try {
+        const subscriptions = await stripe.subscriptions.list({
+            limit,
+            customer,
+            price,
+            status,
+            start_after,
+            ending_before,
+            current_period_start,
+            current_period_end,
+            created,
+        });
+        return subscriptions;
+    } catch (error) {
+        console.log(error);
+        throw new Error(
+            `Error while retrieving subscriptions, ${error.message}`
+        );
+    }
+};
+
+/**
  * description: update a subscription
  * @params {string} subscriptionId - id of the subscription
  * @params {object} data - data to update
@@ -438,5 +478,47 @@ exports.listPromoCodes = async (limit = 10) => {
     } catch (error) {
         console.log(error);
         throw new Error(`Error while listing promo codes, ${error.message}`);
+    }
+};
+
+exports.retrieveInvoice = async (invoiceId) => {
+    try {
+        const invoice = await stripe.invoices.retrieve(invoiceId);
+        return invoice;
+    } catch (error) {
+        console.log(error);
+        throw new Error(
+            `Error while retrieving invoice ${invoiceId}, ${error.message}`
+        );
+    }
+};
+
+exports.retrieveAllInvoices = async ({
+    limit = 100,
+    subscription,
+    status,
+    customer,
+    collection_method,
+    created,
+    due_date,
+    ending_before,
+    starting_after,
+}) => {
+    try {
+        const invoices = await stripe.invoices.list({
+            limit,
+            subscription,
+            status,
+            customer,
+            collection_method,
+            created,
+            due_date,
+            ending_before,
+            starting_after,
+        });
+        return invoices;
+    } catch (error) {
+        console.log(error);
+        throw new Error(`Error while listing invoices, ${error.message}`);
     }
 };
