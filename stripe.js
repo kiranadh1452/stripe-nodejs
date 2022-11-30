@@ -582,3 +582,42 @@ exports.retrieveAllInvoices = async ({
         throw new Error(`Error while listing invoices, ${error.message}`);
     }
 };
+
+/*********************************************************************************************
+ *          Charges Related Functions
+ *********************************************************************************************/
+
+/**
+ * description: get all the charges
+ * @params {number} limit - limit of charges to return
+ * @params {string} customer - customer id
+ * @params {string} payment_intent - payment intent id
+ * @params {string} ending_before - the charge id before which you want to find results (useful during pagination)
+ * @params {string} starting_after - the charge id after which you want to find results (useful during pagination)
+ * @returns {object} charges
+ */
+exports.retrieveAllCharges = async ({
+    limit = 100,
+    customer,
+    created,
+    ending_before,
+    starting_after,
+    payment_intent,
+    transfer_group,
+}) => {
+    try {
+        const charges = await stripe.charges.list({
+            limit,
+            customer,
+            created,
+            ending_before,
+            starting_after,
+            payment_intent,
+            transfer_group,
+        });
+        return charges;
+    } catch (error) {
+        console.log(error);
+        throw new Error(`Error while listing charges, ${error.message}`);
+    }
+};
