@@ -254,6 +254,7 @@ exports.retrieveAllSubscriptions = async ({
     current_period_start,
     current_period_end,
     created,
+    expand,
 }) => {
     try {
         const subscriptions = await stripe.subscriptions.list({
@@ -266,6 +267,7 @@ exports.retrieveAllSubscriptions = async ({
             current_period_start,
             current_period_end,
             created,
+            expand,
         });
         return subscriptions;
     } catch (error) {
@@ -563,6 +565,7 @@ exports.retrieveAllInvoices = async ({
     due_date,
     ending_before,
     starting_after,
+    expand,
 }) => {
     try {
         const invoices = await stripe.invoices.list({
@@ -575,6 +578,7 @@ exports.retrieveAllInvoices = async ({
             due_date,
             ending_before,
             starting_after,
+            expand,
         });
         return invoices;
     } catch (error) {
@@ -604,6 +608,7 @@ exports.retrieveAllCharges = async ({
     starting_after,
     payment_intent,
     transfer_group,
+    expand,
 }) => {
     try {
         const charges = await stripe.charges.list({
@@ -614,6 +619,7 @@ exports.retrieveAllCharges = async ({
             starting_after,
             payment_intent,
             transfer_group,
+            expand,
         });
         return charges;
     } catch (error) {
@@ -621,3 +627,21 @@ exports.retrieveAllCharges = async ({
         throw new Error(`Error while listing charges, ${error.message}`);
     }
 };
+
+/**
+ * description: retrieve a charge
+ */
+exports.retrieveCharge = async (chargeId) => {
+    try {
+        const charge = await stripe.charges.retrieve(chargeId);
+        return charge;
+    } catch (error) {
+        console.log(
+            `Error while retrieving charge ${chargeId}, ${error.message}`
+        );
+        throw new Error(
+            `Error while retrieving charge ${chargeId}, ${error.message}`
+        );
+    }
+};
+
