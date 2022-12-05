@@ -631,9 +631,9 @@ exports.retrieveAllCharges = async ({
 /**
  * description: retrieve a charge
  */
-exports.retrieveCharge = async (chargeId) => {
+exports.retrieveCharge = async (chargeId, options) => {
     try {
-        const charge = await stripe.charges.retrieve(chargeId);
+        const charge = await stripe.charges.retrieve(chargeId, options);
         return charge;
     } catch (error) {
         console.log(
@@ -645,3 +645,38 @@ exports.retrieveCharge = async (chargeId) => {
     }
 };
 
+/*********************************************************************************************
+ *          Balance Transactions Related Functions
+ *********************************************************************************************/
+
+/**
+ * description: get all the balance transactions
+ */
+exports.retrieveAllBalanceTransactions = async ({
+    limit = 100,
+    created,
+    currency,
+    ending_before,
+    starting_after,
+    source,
+    sort,
+}) => {
+    try {
+        const balanceTransactions = await stripe.balanceTransactions.list({
+            limit,
+            created,
+            currency,
+            ending_before,
+            starting_after,
+            source,
+            sort,
+        });
+        return balanceTransactions;
+
+    } catch (error) {
+        console.log(error);
+        throw new Error(
+            `Error while listing balance transactions, ${error.message}`
+        );
+    }
+};
