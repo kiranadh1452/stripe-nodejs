@@ -1,5 +1,8 @@
 ## Stripe Implementation
 
+This is not the official stripe sdk (Software Development Kit) for nodejs. I created this repo because I got tired of using the lengthy structures for data fetching in Stripe. As I frequently have to deal with these operations, I came up with this repo that encapsulates these lengthy looking procedures and provides me short and very simple functions rather than complex ones.
+
+
 > Click [here](https://stripe.com/docs/api?lang=node) for API Reference
 
 ### General Product Structure
